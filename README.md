@@ -7,7 +7,7 @@
 ![JavaScript](https://img.shields.io/badge/JavaScript-Frontend-F7DF1E?style=for-the-badge&logo=javascript)
 ![Industry](https://img.shields.io/badge/Industry-IT%20%2F%20Technology-10b981?style=for-the-badge)
 
-**Hackathon Project — Self-Service Identity Lifecycle Automation**
+**Self-Service Identity Lifecycle Automation for IT Teams**
 
 *Manual Joiner-Mover-Leaver processes cause delays, errors, and orphaned accounts. IdentityFlow fixes that.*
 
@@ -191,5 +191,5 @@ IdentityFlow/
 ---
 
 <div align="center">
-Built for a hackathon · IT Industry · Identity & Access Management
+Built for IT teams · Identity & Access Management · Open Source
 </div>
