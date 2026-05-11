@@ -1,0 +1,145 @@
+[
+  {
+    "id": "5ab9c75c-7613-4b73-a714-2afaf120627a",
+    "timestamp": "2026-05-11T06:26:00.319366+00:00",
+    "action": "REQUEST_CREATED_JOINER",
+    "actor": "hr001",
+    "severity": "INFO",
+    "request_id": "0a362c73-9684-4005-9634-941c6507a015",
+    "details": {
+      "request_id": "0a362c73-9684-4005-9634-941c6507a015",
+      "type": "JOINER",
+      "payload_summary": {
+        "employee_id": "EMP008",
+        "name": "Hiro Tanaka",
+        "email": "hiro.tanaka@techcorp.io",
+        "department": "Platform",
+        "role": "Site Reliability Engineer",
+        "manager": "EMP005",
+        "requester": "HR_System"
+      }
+    }
+  },
+  {
+    "id": "b8285465-0c69-48f6-9e3f-7d47fde1edd0",
+    "timestamp": "2026-05-11T06:26:00.398944+00:00",
+    "action": "REQUEST_CREATED_MOVER",
+    "actor": "mgr001",
+    "severity": "INFO",
+    "request_id": "07ae23f2-d370-45a4-b369-4617794b4509",
+    "details": {
+      "request_id": "07ae23f2-d370-45a4-b369-4617794b4509",
+      "type": "MOVER",
+      "payload_summary": {
+        "employee_id": "EMP006",
+        "new_role": "Senior Software Engineer",
+        "new_department": "Engineering",
+        "requester": "HR_System"
+      }
+    }
+  },
+  {
+    "id": "57039040-ae68-49e7-9b0f-ad7d985e53b4",
+    "timestamp": "2026-05-11T06:26:00.450124+00:00",
+    "action": "REQUEST_CREATED_JOINER",
+    "actor": "hr001",
+    "severity": "INFO",
+    "request_id": "11dc1b9d-f345-4ca7-b1aa-39be75609ff7",
+    "details": {
+      "request_id": "11dc1b9d-f345-4ca7-b1aa-39be75609ff7",
+      "type": "JOINER",
+      "payload_summary": {
+        "employee_id": "EMP009",
+        "name": "Isla Fernandez",
+        "email": "isla.fernandez@techcorp.io",
+        "department": "Platform",
+        "role": "DevOps Engineer",
+        "manager": "EMP005",
+        "requester": "HR_System"
+      }
+    }
+  },
+  {
+    "id": "3142a308-1ef4-4399-bd81-e2a4d9666b58",
+    "timestamp": "2026-05-11T06:26:00.506876+00:00",
+    "action": "REQUEST_CREATED_JOINER",
+    "actor": "hr001",
+    "severity": "INFO",
+    "request_id": "633221df-b6fb-4d2f-95c6-2764582fe312",
+    "details": {
+      "request_id": "633221df-b6fb-4d2f-95c6-2764582fe312",
+      "type": "JOINER",
+      "payload_summary": {
+        "employee_id": "EMP010",
+        "name": "Jake Morrison",
+        "email": "jake.morrison@techcorp.io",
+        "department": "IT",
+        "role": "IT Administrator",
+        "manager": "EMP005",
+        "requester": "HR_System"
+      }
+    }
+  },
+  {
+    "id": "6a0f2b58-99e1-4cbc-ad9d-b3cd70809b1c",
+    "timestamp": "2026-05-11T06:26:00.574937+00:00",
+    "action": "REQUEST_CREATED_JOINER",
+    "actor": "hr001",
+    "severity": "INFO",
+    "request_id": "7b4cd1e4-7e5a-4f6b-bb0b-d7761b9fed4f",
+    "details": {
+      "request_id": "7b4cd1e4-7e5a-4f6b-bb0b-d7761b9fed4f",
+      "type": "JOINER",
+      "payload_summary": {
+        "employee_id": "EMP099",
+        "name": "Kim Rejected",
+        "email": "kim@techcorp.io",
+        "department": "Security",
+        "role": "Security Analyst",
+        "manager": "EMP005",
+        "requester": "HR_System"
+      }
+    }
+  },
+  {
+    "id": "fa95f582-04bd-41ec-ac77-9ee367a0cdee",
+    "timestamp": "2026-05-11T06:26:00.622812+00:00",
+    "action": "REQUEST_REJECTED",
+    "actor": "mgr001",
+    "severity": "WARNING",
+    "request_id": "7b4cd1e4-7e5a-4f6b-bb0b-d7761b9fed4f",
+    "details": {
+      "request_id": "7b4cd1e4-7e5a-4f6b-bb0b-d7761b9fed4f",
+      "reason": "SoD conflict \u2014 Okta + SIEM dual access violates security policy"
+    }
+  },
+  {
+    "id": "68eb0157-6780-4aca-a2c3-22090e6ac4e0",
+    "timestamp": "2026-05-11T06:26:00.686382+00:00",
+    "action": "IAM_EXECUTED",
+    "actor": "system",
+    "severity": "INFO",
+    "request_id": "c55bbd54-c4e3-4f70-9c7f-e82894b85154",
+    "details": {
+      "request_id": "c55bbd54-c4e3-4f70-9c7f-e82894b85154",
+      "actions": 0,
+      "type": "LEAVER"
+    }
+  },
+  {
+    "id": "c467bff6-59b8-4564-b9c5-a62ccf48294a",
+    "timestamp": "2026-05-11T06:26:00.705436+00:00",
+    "action": "REQUEST_CREATED_LEAVER",
+    "actor": "hr001",
+    "severity": "INFO",
+    "request_id": "c55bbd54-c4e3-4f70-9c7f-e82894b85154",
+    "details": {
+      "request_id": "c55bbd54-c4e3-4f70-9c7f-e82894b85154",
+      "type": "LEAVER",
+      "payload_summary": {
+        "employee_id": "EMP007",
+        "requester": "HR_System"
+      }
+    }
+  }
+]

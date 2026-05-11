@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>IAM Portal — AccessFlow</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0c10;
+    --surface: #111318;
+    --surface2: #181c23;
+    --border: #1e2330;
+    --border2: #252c3a;
+    --accent: #4f8ef7;
+    --accent2: #7c5af4;
+    --green: #22d37a;
+    --red: #f74f4f;
+    --amber: #f7a84f;
+    --text: #e8ecf5;
+    --text2: #8892a8;
+    --text3: #4d5568;
+    --sidebar-w: 230px;
+    --mono: 'DM Mono', monospace;
+    --head: 'Syne', sans-serif;
+    --body: 'DM Sans', sans-serif;
+  }
+
+  html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--body); }
+
+  /* ── LOGIN ── */
+  #login-screen {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .login-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(79,142,247,.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(79,142,247,.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 0%, transparent 100%);
+  }
+
+  .login-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(79,142,247,.12) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+
+  .login-card {
+    position: relative;
+    width: 420px;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 16px;
+    padding: 44px 40px;
+    box-shadow: 0 32px 80px rgba(0,0,0,.6), 0 0 0 1px rgba(79,142,247,.08);
+    animation: fadeUp .5s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .login-brand {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 32px;
+  }
+  .login-brand-icon {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+  .login-brand-name {
+    font-family: var(--head);
+    font-size: 20px; font-weight: 800;
+    letter-spacing: -.3px;
+  }
+  .login-brand-tag {
+    font-family: var(--mono);
+    font-size: 10px; color: var(--accent);
+    background: rgba(79,142,247,.1);
+    border: 1px solid rgba(79,142,247,.2);
+    padding: 2px 7px; border-radius: 4px;
+  }
+
+  .login-title { font-family: var(--head); font-size: 24px; font-weight: 700; margin-bottom: 6px; }
+  .login-sub { color: var(--text2); font-size: 13.5px; margin-bottom: 28px; }
+
+  label { display: block; font-size: 12px; font-weight: 500; color: var(--text2); margin-bottom: 6px; letter-spacing: .5px; text-transform: uppercase; }
+
+  .field { margin-bottom: 18px; }
+
+  input[type="text"], input[type="password"], select {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    padding: 11px 14px;
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 14px;
+    outline: none;
+    transition: border-color .2s, box-shadow .2s;
+    appearance: none;
+  }
+  input:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,142,247,.12); }
+
+  .select-wrap { position: relative; }
+  .select-wrap::after {
+    content: '▾';
+    position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+    color: var(--text3); pointer-events: none; font-size: 12px;
+  }
+
+  .role-pills {
+    display: flex; gap: 8px; margin-bottom: 24px;
+  }
+  .role-pill {
+    flex: 1; padding: 9px 0; border-radius: 8px; border: 1px solid var(--border2);
+    background: var(--surface2); color: var(--text2);
+    font-family: var(--body); font-size: 13px; font-weight: 500;
+    cursor: pointer; transition: all .18s; text-align: center;
+  }
+  .role-pill:hover { border-color: var(--accent); color: var(--text); }
+  .role-pill.active { background: rgba(79,142,247,.12); border-color: var(--accent); color: var(--accent); }
+
+  .btn-login {
+    width: 100%; padding: 13px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border: none; border-radius: 9px;
+    color: #fff; font-family: var(--head); font-size: 15px; font-weight: 700;
+    cursor: pointer; transition: opacity .18s, transform .1s;
+    letter-spacing: .2px;
+  }
+  .btn-login:hover { opacity: .92; transform: translateY(-1px); }
+  .btn-login:active { transform: translateY(0); }
+
+  /* ── APP SHELL ── */
+  #app { display: none; height: 100vh; flex-direction: row; }
+  #app.visible { display: flex; }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: var(--sidebar-w);
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    padding: 24px 0;
+    flex-shrink: 0;
+  }
+
+  .sidebar-brand {
+    display: flex; align-items: center; gap: 9px;
+    padding: 0 20px 24px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+  .sidebar-brand-icon {
+    width: 30px; height: 30px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 7px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+  }
+  .sidebar-brand-name { font-family: var(--head); font-size: 16px; font-weight: 800; }
+
+  .sidebar-role {
+    margin: 0 12px 20px;
+    padding: 10px 12px;
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 9px;
+  }
+  .sidebar-role-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 4px; }
+  .sidebar-role-name { font-family: var(--head); font-size: 14px; font-weight: 700; }
+  .role-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 6px; }
+
+  nav { flex: 1; }
+  .nav-section { padding: 0 12px; margin-bottom: 4px; }
+  .nav-section-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: .6px; padding: 0 8px; margin-bottom: 6px; margin-top: 14px; }
+
+  .nav-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 12px; border-radius: 8px;
+    color: var(--text2); font-size: 13.5px; font-weight: 500;
+    cursor: pointer; transition: all .15s; margin-bottom: 2px;
+  }
+  .nav-item:hover { background: var(--surface2); color: var(--text); }
+  .nav-item.active { background: rgba(79,142,247,.12); color: var(--accent); }
+  .nav-item .nav-icon { font-size: 15px; width: 20px; text-align: center; }
+  .nav-badge {
+    margin-left: auto; background: var(--accent); color: #fff;
+    font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 20px;
+    font-family: var(--mono);
+  }
+
+  .sidebar-footer {
+    padding: 16px 12px 0;
+    border-top: 1px solid var(--border);
+    margin-top: 12px;
+  }
+  .btn-switch {
+    width: 100%; padding: 9px;
+    background: var(--surface2); border: 1px solid var(--border2);
+    border-radius: 8px; color: var(--text2);
+    font-family: var(--body); font-size: 12.5px; font-weight: 500;
+    cursor: pointer; transition: all .15s;
+  }
+  .btn-switch:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── MAIN AREA ── */
+  .main { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+
+  .topbar {
+    height: 60px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center;
+    padding: 0 28px;
+    gap: 16px;
+    flex-shrink: 0;
+  }
+  .topbar-title { font-family: var(--head); font-size: 17px; font-weight: 700; flex: 1; }
+  .topbar-time { font-family: var(--mono); font-size: 12px; color: var(--text3); }
+  .topbar-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700; color: #fff; font-family: var(--head);
+  }
+
+  .content { flex: 1; overflow-y: auto; padding: 28px; }
+
+  /* ── STAT CARDS ── */
+  .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 28px; }
+
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative; overflow: hidden;
+    animation: fadeUp .3s ease both;
+  }
+  .stat-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  }
+  .stat-card.blue::before  { background: var(--accent); }
+  .stat-card.green::before { background: var(--green); }
+  .stat-card.amber::before { background: var(--amber); }
+  .stat-card.purple::before { background: var(--accent2); }
+  .stat-card.red::before { background: var(--red); }
+
+  .stat-label { font-size: 11px; color: var(--text2); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 10px; }
+  .stat-value { font-family: var(--head); font-size: 32px; font-weight: 800; line-height: 1; }
+  .stat-sub { font-size: 12px; color: var(--text3); margin-top: 6px; }
+  .stat-icon { position: absolute; right: 16px; top: 16px; font-size: 20px; opacity: .3; }
+
+  /* ── TABLES ── */
+  .section-title { font-family: var(--head); font-size: 15px; font-weight: 700; margin-bottom: 14px; color: var(--text); }
+
+  .table-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-bottom: 24px; }
+  table { width: 100%; border-collapse: collapse; }
+  th { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: .5px; padding: 12px 18px; text-align: left; border-bottom: 1px solid var(--border); font-weight: 500; }
+  td { padding: 13px 18px; font-size: 13.5px; border-bottom: 1px solid var(--border); }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--surface2); }
+
+  /* ── STATUS BADGES ── */
+  .badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px 9px; border-radius: 20px;
+    font-size: 11px; font-weight: 600; font-family: var(--mono);
+  }
+  .badge::before { content: ''; width: 5px; height: 5px; border-radius: 50%; }
+  .badge-pending  { background: rgba(247,168,79,.1);  color: var(--amber); border: 1px solid rgba(247,168,79,.2); }
+  .badge-pending::before  { background: var(--amber); }
+  .badge-approved { background: rgba(34,211,122,.1);  color: var(--green); border: 1px solid rgba(34,211,122,.2); }
+  .badge-approved::before { background: var(--green); }
+  .badge-rejected { background: rgba(247,79,79,.1);   color: var(--red);   border: 1px solid rgba(247,79,79,.2); }
+  .badge-rejected::before { background: var(--red); }
+  .badge-active   { background: rgba(79,142,247,.1);  color: var(--accent); border: 1px solid rgba(79,142,247,.2); }
+  .badge-active::before   { background: var(--accent); }
+  .badge-info     { background: rgba(124,90,244,.1);  color: var(--accent2); border: 1px solid rgba(124,90,244,.2); }
+  .badge-info::before     { background: var(--accent2); }
+
+  /* ── BUTTONS ── */
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 7px; font-family: var(--body); font-size: 13px; font-weight: 500; cursor: pointer; border: none; transition: all .15s; }
+  .btn-sm { padding: 5px 11px; font-size: 12px; }
+  .btn-approve { background: rgba(34,211,122,.15); color: var(--green); border: 1px solid rgba(34,211,122,.25); }
+  .btn-approve:hover { background: rgba(34,211,122,.25); }
+  .btn-reject  { background: rgba(247,79,79,.1);  color: var(--red);   border: 1px solid rgba(247,79,79,.2); }
+  .btn-reject:hover  { background: rgba(247,79,79,.2); }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { opacity: .88; }
+  .btn-ghost { background: var(--surface2); color: var(--text2); border: 1px solid var(--border2); }
+  .btn-ghost:hover { color: var(--text); border-color: var(--border2); }
+
+  /* ── FORM ── */
+  .form-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-field { margin-bottom: 0; }
+  .form-full { grid-column: 1 / -1; }
+  .form-field label { display: block; font-size: 11px; color: var(--text2); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 7px; font-weight: 500; }
+  .form-field input, .form-field select, .form-field textarea {
+    width: 100%; background: var(--surface2); border: 1px solid var(--border2);
+    border-radius: 8px; padding: 10px 13px; color: var(--text);
+    font-family: var(--body); font-size: 13.5px; outline: none;
+    transition: border-color .2s; resize: vertical;
+  }
+  .form-field input:focus, .form-field select:focus, .form-field textarea:focus {
+    border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79,142,247,.1);
+  }
+
+  /* ── LOG ENTRIES ── */
+  .log-entry {
+    display: flex; gap: 14px; padding: 13px 0;
+    border-bottom: 1px solid var(--border);
+    animation: fadeUp .3s ease both;
+  }
+  .log-entry:last-child { border-bottom: none; }
+  .log-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+  .log-time { font-family: var(--mono); font-size: 11px; color: var(--text3); white-space: nowrap; margin-top: 2px; }
+  .log-msg { font-size: 13.5px; color: var(--text); flex: 1; }
+  .log-who { font-size: 12px; color: var(--text3); margin-top: 3px; }
+
+  /* ── EMPTY ── */
+  .empty { text-align: center; padding: 48px 20px; color: var(--text3); }
+  .empty-icon { font-size: 36px; margin-bottom: 12px; }
+  .empty-text { font-size: 14px; }
+
+  /* ── TOAST ── */
+  #toast {
+    position: fixed; bottom: 28px; right: 28px;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-left: 3px solid var(--green);
+    border-radius: 10px;
+    padding: 14px 20px;
+    font-size: 13.5px;
+    box-shadow: 0 16px 40px rgba(0,0,0,.5);
+    transform: translateY(80px); opacity: 0;
+    transition: all .3s cubic-bezier(.34,1.56,.64,1);
+    z-index: 999; max-width: 320px;
+  }
+  #toast.show { transform: translateY(0); opacity: 1; }
+
+  /* ── PAGES ── */
+  .page { display: none; animation: fadeUp .25s ease both; }
+  .page.active { display: block; }
+
+  /* ── ACTIVITY TIMELINE ── */
+  .activity-list { display: flex; flex-direction: column; }
+
+  /* scrollbar */
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+  select option { background: #1a1e28; }
+</style>
+</head>
+<body>
+
+<!-- ══ LOGIN ══ -->
+<div id="login-screen">
+  <div class="login-grid"></div>
+  <div class="login-glow"></div>
+  <div class="login-card">
+    <div class="login-brand">
+      <div class="login-brand-icon">🔐</div>
+      <div class="login-brand-name">AccessFlow</div>
+      <div class="login-brand-tag">IAM PORTAL</div>
+    </div>
+    <div class="login-title">Welcome back</div>
+    <div class="login-sub">Sign in to your workspace</div>
+
+    <div class="field">
+      <label>Email address</label>
+      <input type="text" id="email-input" value="admin@company.com" placeholder="you@company.com" />
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" id="pass-input" value="••••••••" placeholder="••••••••" />
+    </div>
+
+    <div class="field">
+      <label>Select your role</label>
+      <div class="role-pills">
+        <div class="role-pill active" data-role="HR" onclick="selectRole(this)">👩‍💼 HR</div>
+        <div class="role-pill" data-role="Manager" onclick="selectRole(this)">👨‍💼 Manager</div>
+        <div class="role-pill" data-role="Admin" onclick="selectRole(this)">👨‍💻 Admin</div>
+      </div>
+    </div>
+
+    <button class="btn-login" onclick="doLogin()">Sign in →</button>
+  </div>
+</div>
+
+<!-- ══ APP ══ -->
+<div id="app">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-icon">🔐</div>
+      <div class="sidebar-brand-name">AccessFlow</div>
+    </div>
+
+    <div class="sidebar-role">
+      <div class="sidebar-role-label">Logged in as</div>
+      <div class="sidebar-role-name" id="sidebar-role-name">
+        <span class="role-dot" id="role-dot"></span><span id="role-label-text"></span>
+      </div>
+    </div>
+
+    <nav id="sidebar-nav"></nav>
+
+    <div class="sidebar-footer">
+      <button class="btn-switch" onclick="switchRole()">⇄ Switch Role</button>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="topbar">
+      <div class="topbar-title" id="topbar-title">Dashboard</div>
+      <div class="topbar-time" id="topbar-clock"></div>
+      <div class="topbar-avatar" id="topbar-avatar">A</div>
+    </div>
+    <div class="content" id="main-content"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ══ STATE ══
+let currentRole = 'HR';
+let currentPage = 'dashboard';
+
+const requests = [
+  { id: 'REQ-001', type: 'Joiner', employee: 'John Smith',    dept: 'Engineering', createdBy: 'Sarah (HR)', date: '2024-01-15', status: 'pending',  access: 'Developer Tools, GitHub, Jira' },
+  { id: 'REQ-002', type: 'Mover',  employee: 'Alice Johnson', dept: 'Marketing',   createdBy: 'Sarah (HR)', date: '2024-01-14', status: 'approved', access: 'Analytics Suite, CRM' },
+  { id: 'REQ-003', type: 'Leaver', employee: 'Bob Chen',      dept: 'Finance',     createdBy: 'Mike (HR)',  date: '2024-01-13', status: 'pending',  access: 'Revoke All' },
+  { id: 'REQ-004', type: 'Joiner', employee: 'Priya Patel',   dept: 'Design',      createdBy: 'Sarah (HR)', date: '2024-01-12', status: 'rejected', access: 'Figma, Notion, Slack' },
+  { id: 'REQ-005', type: 'Joiner', employee: 'Ravi Kumar',    dept: 'Data Science',createdBy: 'Mike (HR)',  date: '2024-01-11', status: 'approved', access: 'Databricks, AWS, GitHub' },
+];
+
+const users = [
+  { name: 'Sarah Wilson',    role: 'HR Specialist',     dept: 'Human Resources', status: 'active',   joined: 'Jan 2023' },
+  { name: 'Mark Thompson',   role: 'Engineering Lead',  dept: 'Engineering',     status: 'active',   joined: 'Mar 2022' },
+  { name: 'Priya Patel',     role: 'UX Designer',       dept: 'Design',          status: 'pending',  joined: 'Jan 2024' },
+  { name: 'James Lee',       role: 'Finance Analyst',   dept: 'Finance',         status: 'active',   joined: 'Jul 2022' },
+  { name: 'Aisha Okonkwo',   role: 'Data Scientist',    dept: 'Data Science',    status: 'active',   joined: 'Nov 2023' },
+  { name: 'Bob Chen',        role: 'Senior Developer',  dept: 'Engineering',     status: 'inactive', joined: 'Jun 2021' },
+];
+
+const logs = [
+  { time: '09:42 AM', msg: 'Access granted — John Smith added to GitHub Org',       who: 'System', color: 'var(--green)',  },
+  { time: '09:15 AM', msg: 'REQ-003 approved by Manager Mark Thompson',              who: 'Mark Thompson',   color: 'var(--accent)' },
+  { time: '08:50 AM', msg: 'Offboarding initiated for Bob Chen',                     who: 'HR Mike',  color: 'var(--amber)' },
+  { time: '08:30 AM', msg: 'REQ-004 rejected — missing department approval',         who: 'System',   color: 'var(--red)'   },
+  { time: 'Yesterday', msg: 'New user Ravi Kumar onboarded to Databricks & AWS',     who: 'System',   color: 'var(--green)' },
+  { time: 'Yesterday', msg: 'Role change request filed for Alice Johnson',           who: 'HR Sarah', color: 'var(--accent2)'},
+];
+
+// ══ ROLE CONFIG ══
+const roleConfig = {
+  HR: {
+    color: 'var(--green)', dotColor: '#22d37a', label: 'HR Specialist', avatar: 'HR',
+    nav: [
+      { page: 'dashboard',       icon: '⬡', label: 'Dashboard' },
+      { page: 'create-request',  icon: '＋', label: 'Create Request' },
+      { page: 'my-requests',     icon: '📋', label: 'My Requests', badge: 2 },
+    ]
+  },
+  Manager: {
+    color: 'var(--amber)', dotColor: '#f7a84f', label: 'Department Manager', avatar: 'MG',
+    nav: [
+      { page: 'dashboard',   icon: '⬡', label: 'Dashboard' },
+      { page: 'approvals',   icon: '✓', label: 'Pending Approvals', badge: 2 },
+      { page: 'my-requests', icon: '📋', label: 'All Requests' },
+    ]
+  },
+  Admin: {
+    color: 'var(--accent)', dotColor: '#4f8ef7', label: 'System Administrator', avatar: 'AD',
+    nav: [
+      { page: 'dashboard',   icon: '⬡', label: 'Dashboard' },
+      { page: 'users',       icon: '◎', label: 'Users',    badge: 6 },
+      { page: 'my-requests', icon: '📋', label: 'All Requests' },
+      { page: 'logs',        icon: '≡',  label: 'Audit Logs' },
+    ]
+  }
+};
+
+// ══ LOGIN ══
+function selectRole(el) {
+  document.querySelectorAll('.role-pill').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  currentRole = el.dataset.role;
+}
+
+function doLogin() {
+  document.getElementById('login-screen').style.display = 'none';
+  const app = document.getElementById('app');
+  app.classList.add('visible');
+  initApp();
+  showToast(`Signed in as ${roleConfig[currentRole].label}`);
+}
+
+// ══ INIT APP ══
+function initApp() {
+  const cfg = roleConfig[currentRole];
+  // sidebar role badge
+  document.getElementById('role-label-text').textContent = currentRole + ' — ' + cfg.label;
+  document.getElementById('role-dot').style.background = cfg.dotColor;
+  // avatar
+  document.getElementById('topbar-avatar').textContent = cfg.avatar;
+  // nav
+  buildNav(cfg.nav);
+  // clock
+  updateClock();
+  setInterval(updateClock, 1000);
+  // default page
+  navigateTo('dashboard');
+}
+
+function buildNav(items) {
+  const nav = document.getElementById('sidebar-nav');
+  nav.innerHTML = '<div class="nav-section-label nav-section">Menu</div>';
+  items.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'nav-section';
+    div.innerHTML = `
+      <div class="nav-item" id="nav-${item.page}" onclick="navigateTo('${item.page}')">
+        <span class="nav-icon">${item.icon}</span>
+        <span>${item.label}</span>
+        ${item.badge ? `<span class="nav-badge">${item.badge}</span>` : ''}
+      </div>`;
+    nav.appendChild(div);
+  });
+}
+
+function navigateTo(page) {
+  currentPage = page;
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const el = document.getElementById('nav-' + page);
+  if (el) el.classList.add('active');
+
+  const titles = {
+    dashboard: 'Dashboard', 'create-request': 'Create Request',
+    'my-requests': 'Requests', approvals: 'Pending Approvals',
+    users: 'User Management', logs: 'Audit Logs'
+  };
+  document.getElementById('topbar-title').textContent = titles[page] || page;
+  renderPage(page);
+}
+
+// ══ PAGES ══
+function renderPage(page) {
+  const c = document.getElementById('main-content');
+  if (page === 'dashboard')       c.innerHTML = renderDashboard();
+  else if (page === 'create-request') c.innerHTML = renderCreateRequest();
+  else if (page === 'my-requests')    c.innerHTML = renderRequests();
+  else if (page === 'approvals')      c.innerHTML = renderApprovals();
+  else if (page === 'users')          c.innerHTML = renderUsers();
+  else if (page === 'logs')           c.innerHTML = renderLogs();
+}
+
+// ── DASHBOARD ──
+function renderDashboard() {
+  const pending = requests.filter(r => r.status === 'pending').length;
+  const approved = requests.filter(r => r.status === 'approved').length;
+  const rejected = requests.filter(r => r.status === 'rejected').length;
+
+  const statsByRole = {
+    HR: `
+      <div class="stat-card blue">  <div class="stat-icon">📝</div><div class="stat-label">Total Requests</div><div class="stat-value">${requests.length}</div><div class="stat-sub">Filed by you</div></div>
+      <div class="stat-card amber"> <div class="stat-icon">⏳</div><div class="stat-label">Awaiting Approval</div><div class="stat-value">${pending}</div><div class="stat-sub">Pending manager review</div></div>
+      <div class="stat-card green"> <div class="stat-icon">✅</div><div class="stat-label">Approved</div><div class="stat-value">${approved}</div><div class="stat-sub">Completed this month</div></div>
+    `,
+    Manager: `
+      <div class="stat-card amber"> <div class="stat-icon">⏳</div><div class="stat-label">Awaiting Review</div><div class="stat-value">${pending}</div><div class="stat-sub">Requires your action</div></div>
+      <div class="stat-card green"> <div class="stat-icon">✅</div><div class="stat-label">Approved</div><div class="stat-value">${approved}</div><div class="stat-sub">By you this month</div></div>
+      <div class="stat-card red">   <div class="stat-icon">❌</div><div class="stat-label">Rejected</div><div class="stat-value">${rejected}</div><div class="stat-sub">This month</div></div>
+    `,
+    Admin: `
+      <div class="stat-card blue">  <div class="stat-icon">👥</div><div class="stat-label">Total Users</div><div class="stat-value">${users.length}</div><div class="stat-sub">In system</div></div>
+      <div class="stat-card amber"> <div class="stat-icon">⏳</div><div class="stat-label">Pending</div><div class="stat-value">${pending}</div><div class="stat-sub">Awaiting action</div></div>
+      <div class="stat-card green"> <div class="stat-icon">✅</div><div class="stat-label">Approved</div><div class="stat-value">${approved}</div><div class="stat-sub">This month</div></div>
+      <div class="stat-card purple"><div class="stat-icon">📋</div><div class="stat-label">Total Requests</div><div class="stat-value">${requests.length}</div><div class="stat-sub">All time</div></div>
+    `
+  };
+
+  const recentRows = requests.slice(0, 4).map(r => `
+    <tr>
+      <td><span style="font-family:var(--mono);font-size:12px;color:var(--text2)">${r.id}</span></td>
+      <td>${r.employee}</td>
+      <td><span class="badge badge-info">${r.type}</span></td>
+      <td>${r.dept}</td>
+      <td><span class="badge badge-${r.status}">${r.status}</span></td>
+    </tr>`).join('');
+
+  return `
+    <div class="stat-grid">${statsByRole[currentRole]}</div>
+    <div class="section-title">Recent Activity</div>
+    <div class="table-card">
+      <table>
+        <thead><tr><th>ID</th><th>Employee</th><th>Type</th><th>Department</th><th>Status</th></tr></thead>
+        <tbody>${recentRows}</tbody>
+      </table>
+    </div>
+    <div class="section-title">Latest Log Entries</div>
+    <div class="table-card" style="padding:4px 18px">
+      <div class="activity-list">
+        ${logs.slice(0,4).map(l => `
+          <div class="log-entry">
+            <div class="log-dot" style="background:${l.color}"></div>
+            <div style="flex:1">
+              <div class="log-msg">${l.msg}</div>
+              <div class="log-who">${l.who}</div>
+            </div>
+            <div class="log-time">${l.time}</div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+}
+
+// ── CREATE REQUEST (HR) ──
+function renderCreateRequest() {
+  return `
+    <div class="section-title">New IAM Request</div>
+    <div class="form-card">
+      <div class="form-grid">
+        <div class="form-field">
+          <label>Request Type</label>
+          <select id="req-type">
+            <option>Joiner — New Employee Onboarding</option>
+            <option>Mover — Role / Department Change</option>
+            <option>Leaver — Employee Offboarding</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Employee Name</label>
+          <input type="text" placeholder="Full name" />
+        </div>
+        <div class="form-field">
+          <label>Employee ID</label>
+          <input type="text" placeholder="EMP-0000" />
+        </div>
+        <div class="form-field">
+          <label>Department</label>
+          <select>
+            <option>Engineering</option>
+            <option>Design</option>
+            <option>Finance</option>
+            <option>Marketing</option>
+            <option>Data Science</option>
+            <option>Human Resources</option>
+          </select>
+        </div>
+        <div class="form-field">
+          <label>Start Date</label>
+          <input type="text" placeholder="YYYY-MM-DD" />
+        </div>
+        <div class="form-field">
+          <label>Manager / Approver</label>
+          <select>
+            <option>Mark Thompson (Engineering)</option>
+            <option>Jennifer Wu (Design)</option>
+            <option>David Park (Finance)</option>
+          </select>
+        </div>
+        <div class="form-field form-full">
+          <label>Systems & Access Required</label>
+          <textarea rows="3" placeholder="e.g. GitHub, Jira, AWS, Figma, Slack..."></textarea>
+        </div>
+        <div class="form-field form-full">
+          <label>Additional Notes</label>
+          <textarea rows="2" placeholder="Any special requirements or context..."></textarea>
+        </div>
+      </div>
+      <div style="margin-top:20px;display:flex;gap:10px">
+        <button class="btn btn-primary" onclick="submitRequest()">Submit Request →</button>
+        <button class="btn btn-ghost">Save Draft</button>
+      </div>
+    </div>`;
+}
+
+function submitRequest() {
+  showToast('✅ Request submitted — pending manager approval');
+  navigateTo('my-requests');
+}
+
+// ── REQUESTS LIST ──
+function renderRequests() {
+  const rows = requests.map(r => `
+    <tr>
+      <td><span style="font-family:var(--mono);font-size:12px;color:var(--text2)">${r.id}</span></td>
+      <td>${r.employee}</td>
+      <td><span class="badge badge-info">${r.type}</span></td>
+      <td>${r.dept}</td>
+      <td>${r.date}</td>
+      <td>${r.createdBy}</td>
+      <td><span class="badge badge-${r.status}">${r.status}</span></td>
+    </tr>`).join('');
+
+  return `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <div class="section-title" style="margin:0">All Requests</div>
+      ${currentRole === 'HR' ? '<button class="btn btn-primary btn-sm" onclick="navigateTo(\'create-request\')">＋ New Request</button>' : ''}
+    </div>
+    <div class="table-card">
+      <table>
+        <thead><tr><th>ID</th><th>Employee</th><th>Type</th><th>Dept</th><th>Date</th><th>Filed By</th><th>Status</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+}
+
+// ── APPROVALS (Manager) ──
+function renderApprovals() {
+  const pending = requests.filter(r => r.status === 'pending');
+  const done    = requests.filter(r => r.status !== 'pending');
+
+  const pendingRows = pending.map(r => `
+    <tr>
+      <td><span style="font-family:var(--mono);font-size:12px;color:var(--text2)">${r.id}</span></td>
+      <td><strong>${r.employee}</strong></td>
+      <td><span class="badge badge-info">${r.type}</span></td>
+      <td>${r.dept}</td>
+      <td style="font-size:12px;color:var(--text2)">${r.access}</td>
+      <td>
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-approve btn-sm" onclick="handleApprove('${r.id}', 'approve')">✓ Approve</button>
+          <button class="btn btn-reject  btn-sm" onclick="handleApprove('${r.id}', 'reject')">✕ Reject</button>
+        </div>
+      </td>
+    </tr>`).join('');
+
+  const doneRows = done.map(r => `
+    <tr>
+      <td><span style="font-family:var(--mono);font-size:12px;color:var(--text2)">${r.id}</span></td>
+      <td>${r.employee}</td>
+      <td><span class="badge badge-info">${r.type}</span></td>
+      <td>${r.dept}</td>
+      <td><span class="badge badge-${r.status}">${r.status}</span></td>
+    </tr>`).join('');
+
+  return `
+    <div class="section-title">Pending Approvals <span class="nav-badge" style="margin-left:8px">${pending.length}</span></div>
+    <div class="table-card">
+      ${pending.length ? `
+      <table>
+        <thead><tr><th>ID</th><th>Employee</th><th>Type</th><th>Dept</th><th>Access Requested</th><th>Action</th></tr></thead>
+        <tbody>${pendingRows}</tbody>
+      </table>` : `<div class="empty"><div class="empty-icon">🎉</div><div class="empty-text">All caught up! No pending approvals.</div></div>`}
+    </div>
+    <div class="section-title">Previously Reviewed</div>
+    <div class="table-card">
+      <table>
+        <thead><tr><th>ID</th><th>Employee</th><th>Type</th><th>Dept</th><th>Status</th></tr></thead>
+        <tbody>${doneRows}</tbody>
+      </table>
+    </div>`;
+}
+
+function handleApprove(id, action) {
+  const req = requests.find(r => r.id === id);
+  if (!req) return;
+  req.status = action === 'approve' ? 'approved' : 'rejected';
+  const msg = action === 'approve'
+    ? `✅ ${req.id} approved — access provisioning started`
+    : `❌ ${req.id} rejected and HR notified`;
+  showToast(msg);
+  renderPage('approvals');
+}
+
+// ── USERS (Admin) ──
+function renderUsers() {
+  const rows = users.map(u => `
+    <tr>
+      <td><strong>${u.name}</strong></td>
+      <td style="color:var(--text2)">${u.role}</td>
+      <td>${u.dept}</td>
+      <td>${u.joined}</td>
+      <td><span class="badge badge-${u.status === 'active' ? 'approved' : u.status === 'pending' ? 'pending' : 'rejected'}">${u.status}</span></td>
+      <td>
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-ghost btn-sm">Edit</button>
+          <button class="btn btn-reject btn-sm">Revoke</button>
+        </div>
+      </td>
+    </tr>`).join('');
+
+  return `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+      <div class="section-title" style="margin:0">All Users (${users.length})</div>
+      <button class="btn btn-primary btn-sm">＋ Add User</button>
+    </div>
+    <div class="table-card">
+      <table>
+        <thead><tr><th>Name</th><th>Role</th><th>Department</th><th>Joined</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
+}
+
+// ── LOGS (Admin) ──
+function renderLogs() {
+  return `
+    <div class="section-title">Audit Log</div>
+    <div class="table-card" style="padding:4px 18px">
+      <div class="activity-list">
+        ${logs.map(l => `
+          <div class="log-entry">
+            <div class="log-dot" style="background:${l.color}"></div>
+            <div style="flex:1">
+              <div class="log-msg">${l.msg}</div>
+              <div class="log-who">By: ${l.who}</div>
+            </div>
+            <div class="log-time">${l.time}</div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+}
+
+// ══ UTILS ══
+function switchRole() {
+  document.getElementById('app').classList.remove('visible');
+  document.getElementById('login-screen').style.display = 'flex';
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3200);
+}
+
+function updateClock() {
+  const now = new Date();
+  document.getElementById('topbar-clock').textContent =
+    now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+</script>
+</body>
+</html>

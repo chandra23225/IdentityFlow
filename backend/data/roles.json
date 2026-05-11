@@ -1,0 +1,52 @@
+{
+  "Software Engineer": {
+    "systems": ["GitHub", "Jira", "Confluence", "Slack", "AWS_Dev"],
+    "permissions": ["read_code", "write_code", "create_tickets", "view_docs"],
+    "requires_approval": ["AWS_Dev"]
+  },
+  "Senior Software Engineer": {
+    "systems": ["GitHub", "Jira", "Confluence", "Slack", "AWS_Dev", "AWS_Prod"],
+    "permissions": ["read_code", "write_code", "create_tickets", "view_docs", "deploy_dev"],
+    "requires_approval": ["AWS_Dev", "AWS_Prod"]
+  },
+  "DevOps Engineer": {
+    "systems": ["GitHub", "Jira", "Confluence", "Slack", "AWS_Dev", "AWS_Prod", "PagerDuty", "Datadog"],
+    "permissions": ["read_code", "write_code", "deploy_dev", "deploy_prod", "manage_infra", "view_alerts"],
+    "requires_approval": ["AWS_Prod", "PagerDuty"]
+  },
+  "Site Reliability Engineer": {
+    "systems": ["GitHub", "Jira", "Confluence", "Slack", "AWS_Dev", "AWS_Prod", "PagerDuty", "Datadog", "VPN"],
+    "permissions": ["read_code", "deploy_prod", "manage_infra", "view_alerts", "incident_response"],
+    "requires_approval": ["AWS_Prod", "PagerDuty", "VPN"]
+  },
+  "Security Analyst": {
+    "systems": ["Okta", "Jira", "Confluence", "Slack", "Datadog", "VPN", "SIEM"],
+    "permissions": ["manage_identities", "view_logs", "create_tickets", "security_review", "incident_response"],
+    "requires_approval": ["Okta", "SIEM", "VPN"]
+  },
+  "Engineering Manager": {
+    "systems": ["GitHub", "Jira", "Confluence", "Slack", "AWS_Dev", "AWS_Prod", "PagerDuty", "Datadog", "Okta", "HR_System"],
+    "permissions": ["read_code", "write_code", "deploy_dev", "deploy_prod", "manage_team", "approve_access", "view_all"],
+    "requires_approval": ["AWS_Prod", "Okta", "HR_System"]
+  },
+  "IT Administrator": {
+    "systems": ["Okta", "Jira", "Confluence", "Slack", "VPN", "HR_System", "MDM", "AD"],
+    "permissions": ["manage_identities", "manage_devices", "reset_passwords", "manage_accounts", "view_logs"],
+    "requires_approval": ["Okta", "AD", "MDM"]
+  },
+  "Data Engineer": {
+    "systems": ["GitHub", "Jira", "Confluence", "Slack", "AWS_Dev", "Datadog"],
+    "permissions": ["read_code", "write_code", "manage_pipelines", "view_data", "create_tickets"],
+    "requires_approval": ["AWS_Dev"]
+  },
+  "Product Manager": {
+    "systems": ["Jira", "Confluence", "Slack", "Datadog"],
+    "permissions": ["create_tickets", "view_docs", "view_reports", "manage_roadmap"],
+    "requires_approval": []
+  },
+  "Intern": {
+    "systems": ["GitHub", "Jira", "Confluence", "Slack"],
+    "permissions": ["read_code", "create_tickets", "view_docs"],
+    "requires_approval": []
+  }
+}

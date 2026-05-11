@@ -1,0 +1,382 @@
+[
+  {
+    "id": "0a362c73-9684-4005-9634-941c6507a015",
+    "type": "JOINER",
+    "payload": {
+      "employee_id": "EMP008",
+      "name": "Hiro Tanaka",
+      "email": "hiro.tanaka@techcorp.io",
+      "department": "Platform",
+      "role": "Site Reliability Engineer",
+      "manager": "EMP005",
+      "requester": "HR_System"
+    },
+    "requester": "HR_System",
+    "status": "PENDING_APPROVAL",
+    "approval_chain": [
+      {
+        "level": "L1",
+        "label": "Manager Approval",
+        "approver_role": "MANAGER",
+        "status": "PENDING",
+        "approver": null,
+        "timestamp": null
+      },
+      {
+        "level": "L2",
+        "label": "IT Security Review",
+        "approver_role": "IT_SECURITY",
+        "status": "WAITING",
+        "approver": null,
+        "timestamp": null
+      },
+      {
+        "level": "L3",
+        "label": "Compliance Sign-off",
+        "approver_role": "COMPLIANCE",
+        "status": "WAITING",
+        "approver": null,
+        "timestamp": null
+      }
+    ],
+    "approvals_needed": [
+      "L1",
+      "L2",
+      "L3"
+    ],
+    "approvals_received": [],
+    "iam_results": [],
+    "risk": {
+      "score": 100,
+      "level": "CRITICAL",
+      "factors": [
+        "Critical system access requested: AWS_Prod",
+        "Sensitive system access: AWS_Dev, PagerDuty, VPN",
+        "Privileged role: Site Reliability Engineer",
+        "Production environment access (AWS_Prod)",
+        "Broad access scope (9 systems)"
+      ],
+      "sod_violation": false,
+      "system_descriptions": {
+        "GitHub": "Source code repository",
+        "Confluence": "Internal documentation",
+        "AWS_Prod": "AWS production environment \u26a0",
+        "Slack": "Team communication",
+        "VPN": "Corporate VPN access",
+        "AWS_Dev": "AWS development environment",
+        "PagerDuty": "Incident alerting & on-call",
+        "Jira": "Project & issue tracking",
+        "Datadog": "Observability & monitoring"
+      }
+    },
+    "created_at": "2026-05-08T06:26:00.318367",
+    "updated_at": "2026-05-11T06:26:00.318367+00:00"
+  },
+  {
+    "id": "07ae23f2-d370-45a4-b369-4617794b4509",
+    "type": "MOVER",
+    "payload": {
+      "employee_id": "EMP006",
+      "new_role": "Senior Software Engineer",
+      "new_department": "Engineering",
+      "requester": "HR_System"
+    },
+    "requester": "HR_System",
+    "status": "PENDING_APPROVAL",
+    "approval_chain": [
+      {
+        "level": "L1",
+        "label": "Manager Approval",
+        "approver_role": "MANAGER",
+        "status": "PENDING",
+        "approver": null,
+        "timestamp": null
+      },
+      {
+        "level": "L2",
+        "label": "IT Security Review",
+        "approver_role": "IT_SECURITY",
+        "status": "WAITING",
+        "approver": null,
+        "timestamp": null
+      },
+      {
+        "level": "L3",
+        "label": "Compliance Sign-off",
+        "approver_role": "COMPLIANCE",
+        "status": "WAITING",
+        "approver": null,
+        "timestamp": null
+      }
+    ],
+    "approvals_needed": [
+      "L1",
+      "L2",
+      "L3"
+    ],
+    "approvals_received": [],
+    "iam_results": [],
+    "risk": {
+      "score": 75,
+      "level": "CRITICAL",
+      "factors": [
+        "Critical system access requested: AWS_Prod",
+        "Sensitive system access: AWS_Dev",
+        "Production environment access (AWS_Prod)"
+      ],
+      "sod_violation": false,
+      "system_descriptions": {
+        "GitHub": "Source code repository",
+        "Confluence": "Internal documentation",
+        "AWS_Prod": "AWS production environment \u26a0",
+        "Slack": "Team communication",
+        "AWS_Dev": "AWS development environment",
+        "Jira": "Project & issue tracking"
+      }
+    },
+    "created_at": "2026-05-10T06:26:00.380476",
+    "updated_at": "2026-05-11T06:26:00.380476+00:00"
+  },
+  {
+    "id": "11dc1b9d-f345-4ca7-b1aa-39be75609ff7",
+    "type": "JOINER",
+    "payload": {
+      "employee_id": "EMP009",
+      "name": "Isla Fernandez",
+      "email": "isla.fernandez@techcorp.io",
+      "department": "Platform",
+      "role": "DevOps Engineer",
+      "manager": "EMP005",
+      "requester": "HR_System"
+    },
+    "requester": "HR_System",
+    "status": "PENDING_APPROVAL",
+    "approval_chain": [
+      {
+        "level": "L1",
+        "label": "Manager Approval",
+        "approver_role": "MANAGER",
+        "status": "PENDING",
+        "approver": null,
+        "timestamp": null
+      },
+      {
+        "level": "L2",
+        "label": "IT Security Review",
+        "approver_role": "IT_SECURITY",
+        "status": "WAITING",
+        "approver": null,
+        "timestamp": null
+      },
+      {
+        "level": "L3",
+        "label": "Compliance Sign-off",
+        "approver_role": "COMPLIANCE",
+        "status": "WAITING",
+        "approver": null,
+        "timestamp": null
+      }
+    ],
+    "approvals_needed": [
+      "L1",
+      "L2",
+      "L3"
+    ],
+    "approvals_received": [],
+    "iam_results": [],
+    "risk": {
+      "score": 90,
+      "level": "CRITICAL",
+      "factors": [
+        "Critical system access requested: AWS_Prod",
+        "Sensitive system access: AWS_Dev, PagerDuty",
+        "Production environment access (AWS_Prod)",
+        "Broad access scope (8 systems)"
+      ],
+      "sod_violation": false,
+      "system_descriptions": {
+        "GitHub": "Source code repository",
+        "Confluence": "Internal documentation",
+        "AWS_Prod": "AWS production environment \u26a0",
+        "Slack": "Team communication",
+        "AWS_Dev": "AWS development environment",
+        "PagerDuty": "Incident alerting & on-call",
+        "Jira": "Project & issue tracking",
+        "Datadog": "Observability & monitoring"
+      }
+    },
+    "created_at": "2026-05-10T03:26:00.432055",
+    "updated_at": "2026-05-11T06:26:00.432055+00:00"
+  },
+  {
+    "id": "633221df-b6fb-4d2f-95c6-2764582fe312",
+    "type": "JOINER",
+    "payload": {
+      "employee_id": "EMP010",
+      "name": "Jake Morrison",
+      "email": "jake.morrison@techcorp.io",
+      "department": "IT",
+      "role": "IT Administrator",
+      "manager": "EMP005",
+      "requester": "HR_System"
+    },
+    "requester": "HR_System",
+    "status": "PENDING_APPROVAL",
+    "approval_chain": [
+      {
+        "level": "L1",
+        "label": "Manager Approval",
+        "approver_role": "MANAGER",
+        "status": "PENDING",
+        "approver": null,
+        "timestamp": null
+      },
+      {
+        "level": "L2",
+        "label": "IT Security Review",
+        "approver_role": "IT_SECURITY",
+        "status": "WAITING",
+        "approver": null,
+        "timestamp": null
+      },
+      {
+        "level": "L3",
+        "label": "Compliance Sign-off",
+        "approver_role": "COMPLIANCE",
+        "status": "WAITING",
+        "approver": null,
+        "timestamp": null
+      }
+    ],
+    "approvals_needed": [
+      "L1",
+      "L2",
+      "L3"
+    ],
+    "approvals_received": [],
+    "iam_results": [],
+    "risk": {
+      "score": 100,
+      "level": "CRITICAL",
+      "factors": [
+        "Critical system access requested: AD, Okta",
+        "Sensitive system access: HR_System, MDM, VPN",
+        "Privileged role: IT Administrator",
+        "Broad access scope (8 systems)",
+        "\u26a0 SoD conflict: AD + HR_System \u2014 dual control violation",
+        "\u26a0 SoD conflict: AD + MDM \u2014 dual control violation"
+      ],
+      "sod_violation": true,
+      "system_descriptions": {
+        "Confluence": "Internal documentation",
+        "VPN": "Corporate VPN access",
+        "Okta": "Identity provider & SSO \u26a0",
+        "Slack": "Team communication",
+        "MDM": "Mobile device management",
+        "HR_System": "HR records & payroll",
+        "AD": "Active Directory \u26a0",
+        "Jira": "Project & issue tracking"
+      }
+    },
+    "created_at": "2026-05-11T03:26:00.488868",
+    "updated_at": "2026-05-11T06:26:00.488868+00:00"
+  },
+  {
+    "id": "7b4cd1e4-7e5a-4f6b-bb0b-d7761b9fed4f",
+    "type": "JOINER",
+    "payload": {
+      "employee_id": "EMP099",
+      "name": "Kim Rejected",
+      "email": "kim@techcorp.io",
+      "department": "Security",
+      "role": "Security Analyst",
+      "manager": "EMP005",
+      "requester": "HR_System"
+    },
+    "requester": "HR_System",
+    "status": "REJECTED",
+    "approval_chain": [
+      {
+        "level": "L1",
+        "label": "Manager Approval",
+        "approver_role": "MANAGER",
+        "status": "PENDING",
+        "approver": null,
+        "timestamp": null
+      },
+      {
+        "level": "L2",
+        "label": "IT Security Review",
+        "approver_role": "IT_SECURITY",
+        "status": "WAITING",
+        "approver": null,
+        "timestamp": null
+      },
+      {
+        "level": "L3",
+        "label": "Compliance Sign-off",
+        "approver_role": "COMPLIANCE",
+        "status": "WAITING",
+        "approver": null,
+        "timestamp": null
+      }
+    ],
+    "approvals_needed": [
+      "L1",
+      "L2",
+      "L3"
+    ],
+    "approvals_received": [],
+    "iam_results": [],
+    "risk": {
+      "score": 100,
+      "level": "CRITICAL",
+      "factors": [
+        "Critical system access requested: Okta, SIEM",
+        "Sensitive system access: VPN",
+        "Privileged role: Security Analyst",
+        "Broad access scope (7 systems)",
+        "\u26a0 SoD conflict: Okta + SIEM \u2014 dual control violation"
+      ],
+      "sod_violation": true,
+      "system_descriptions": {
+        "Confluence": "Internal documentation",
+        "Okta": "Identity provider & SSO \u26a0",
+        "Slack": "Team communication",
+        "VPN": "Corporate VPN access",
+        "SIEM": "Security event monitoring \u26a0",
+        "Jira": "Project & issue tracking",
+        "Datadog": "Observability & monitoring"
+      }
+    },
+    "created_at": "2026-05-09T06:26:00.553933",
+    "updated_at": "2026-05-11T06:26:00.605393+00:00",
+    "rejection_reason": "SoD conflict \u2014 Okta + SIEM dual access violates security policy",
+    "rejected_by": "mgr001"
+  },
+  {
+    "id": "c55bbd54-c4e3-4f70-9c7f-e82894b85154",
+    "type": "LEAVER",
+    "payload": {
+      "employee_id": "EMP007",
+      "requester": "HR_System"
+    },
+    "requester": "HR_System",
+    "status": "COMPLETED",
+    "approval_chain": [],
+    "approvals_needed": [],
+    "approvals_received": [],
+    "iam_results": [],
+    "risk": {
+      "score": 10,
+      "level": "LOW",
+      "factors": [
+        "Leaver \u2014 immediate access revocation required"
+      ],
+      "sod_violation": false,
+      "system_descriptions": {}
+    },
+    "created_at": "2026-05-10T06:26:00.668377",
+    "updated_at": "2026-05-11T06:26:00.669378+00:00"
+  }
+]

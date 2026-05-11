@@ -1,0 +1,130 @@
+[
+  {
+    "id": "EMP001",
+    "name": "Alice Chen",
+    "email": "alice.chen@techcorp.io",
+    "department": "Engineering",
+    "role": "Senior Software Engineer",
+    "status": "active",
+    "systems": [
+      "GitHub",
+      "Jira",
+      "Confluence",
+      "Slack",
+      "AWS_Dev",
+      "AWS_Prod"
+    ],
+    "manager": "EMP005",
+    "joined": "2022-03-14"
+  },
+  {
+    "id": "EMP002",
+    "name": "Ben Okafor",
+    "email": "ben.okafor@techcorp.io",
+    "department": "Platform",
+    "role": "DevOps Engineer",
+    "status": "active",
+    "systems": [
+      "GitHub",
+      "Jira",
+      "Confluence",
+      "Slack",
+      "AWS_Dev",
+      "AWS_Prod",
+      "PagerDuty",
+      "Datadog"
+    ],
+    "manager": "EMP005",
+    "joined": "2021-07-01"
+  },
+  {
+    "id": "EMP003",
+    "name": "Clara Reyes",
+    "email": "clara.reyes@techcorp.io",
+    "department": "Security",
+    "role": "Security Analyst",
+    "status": "active",
+    "systems": [
+      "Okta",
+      "Jira",
+      "Confluence",
+      "Slack",
+      "Datadog",
+      "VPN",
+      "SIEM"
+    ],
+    "manager": "EMP005",
+    "joined": "2023-01-09"
+  },
+  {
+    "id": "EMP004",
+    "name": "Dan Patel",
+    "email": "dan.patel@techcorp.io",
+    "department": "IT",
+    "role": "IT Administrator",
+    "status": "active",
+    "systems": [
+      "Okta",
+      "Jira",
+      "Confluence",
+      "Slack",
+      "VPN",
+      "HR_System",
+      "MDM",
+      "AD"
+    ],
+    "manager": "EMP005",
+    "joined": "2020-11-15"
+  },
+  {
+    "id": "EMP005",
+    "name": "Eva Thornton",
+    "email": "eva.thornton@techcorp.io",
+    "department": "Engineering",
+    "role": "Engineering Manager",
+    "status": "active",
+    "systems": [
+      "GitHub",
+      "Jira",
+      "Confluence",
+      "Slack",
+      "AWS_Dev",
+      "AWS_Prod",
+      "PagerDuty",
+      "Datadog",
+      "Okta",
+      "HR_System"
+    ],
+    "manager": null,
+    "joined": "2019-06-01"
+  },
+  {
+    "id": "EMP006",
+    "name": "Frank Liu",
+    "email": "frank.liu@techcorp.io",
+    "department": "Data",
+    "role": "Data Engineer",
+    "status": "active",
+    "systems": [
+      "GitHub",
+      "Jira",
+      "Confluence",
+      "Slack",
+      "AWS_Dev",
+      "Datadog"
+    ],
+    "manager": "EMP005",
+    "joined": "2023-08-21"
+  },
+  {
+    "id": "EMP007",
+    "name": "Grace Kim",
+    "email": "grace.kim@techcorp.io",
+    "department": "Engineering",
+    "role": "Software Engineer",
+    "status": "inactive",
+    "systems": [],
+    "manager": "EMP005",
+    "joined": "2021-04-12"
+  }
+]

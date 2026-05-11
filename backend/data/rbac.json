@@ -1,0 +1,44 @@
+{
+  "users": {
+    "admin001": {
+      "name": "System Admin",
+      "password": "admin123",
+      "role": "IAM_ADMIN",
+      "permissions": ["create_request", "approve_any", "reject_any", "override", "view_audit", "manage_users", "view_all"]
+    },
+    "mgr001": {
+      "name": "Eva Thornton",
+      "employee_id": "EMP005",
+      "password": "manager123",
+      "role": "MANAGER",
+      "permissions": ["create_request", "approve_L1", "reject_any", "view_audit", "view_all"]
+    },
+    "sec001": {
+      "name": "Clara Reyes",
+      "employee_id": "EMP003",
+      "password": "security123",
+      "role": "IT_SECURITY",
+      "permissions": ["approve_L2", "reject_any", "view_audit", "view_all"]
+    },
+    "comp001": {
+      "name": "Dan Patel",
+      "employee_id": "EMP004",
+      "password": "itadmin123",
+      "role": "IT_COMPLIANCE",
+      "permissions": ["approve_L3", "reject_any", "view_audit", "view_all"]
+    },
+    "hr001": {
+      "name": "HR Specialist",
+      "password": "hr123",
+      "role": "HR",
+      "permissions": ["create_request", "view_all"]
+    }
+  },
+  "role_definitions": {
+    "IAM_ADMIN":     { "label": "IAM Administrator",  "color": "#ef4444" },
+    "MANAGER":       { "label": "Engineering Manager", "color": "#f59e0b" },
+    "IT_SECURITY":   { "label": "IT Security",         "color": "#8b5cf6" },
+    "IT_COMPLIANCE": { "label": "IT Compliance",       "color": "#10b981" },
+    "HR":            { "label": "HR Specialist",       "color": "#5b8dee" }
+  }
+}
