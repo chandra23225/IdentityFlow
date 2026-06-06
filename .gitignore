@@ -1,6 +1,26 @@
+# Environment variables and local secrets
+.env
+
+# Python cache
 __pycache__/
 *.pyc
 *.pyo
-.env
-.DS_Store
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+
+# Local data/runtime files
+*.db
+backend/data/*.local.json
+
+# Node/frontend dependencies
 node_modules/
+dist/
+build/
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
