@@ -19,6 +19,65 @@ IdentityFlow demonstrates a cleaner lifecycle:
 request -> risk score -> approval chain -> simulated provisioning -> audit trail
 ```
 
+## Workflow
+
+```mermaid
+flowchart TD
+    A[Portal user logs in] --> B{RBAC role}
+    B -->|HR Specialist| C[Create Joiner, Mover, or Leaver request]
+    B -->|Manager / Security / Compliance| D[Review pending approvals]
+    B -->|IAM Admin| E[Manage requests, override, analytics, audit]
+
+    C --> F[Backend receives lifecycle request]
+    F --> G[Validate employee, role, target systems, and request type]
+    G --> H[Risk scoring engine]
+
+    H --> H1[Separation-of-duties checks]
+    H --> H2[Critical system checks<br/>AWS Prod, Okta, AD]
+    H --> H3[Role and access-scope checks]
+    H1 --> I[Risk level assigned]
+    H2 --> I
+    H3 --> I
+
+    I --> J{Risk level}
+    J -->|Low / Medium| K[Auto-approve request]
+    J -->|High / Critical| L[Approval chain required]
+
+    L --> M[L1 Manager approval]
+    M --> N[L2 IT Security review]
+    N --> O[L3 IT Compliance sign-off]
+
+    K --> P[Simulated IAM provisioning]
+    O --> P
+
+    P --> Q[Provision or remove access<br/>across simulated systems]
+    Q --> R[Write request status]
+    R --> S[Write audit log event]
+
+    S --> T[Dashboard analytics]
+    S --> U[SLA tracking]
+    S --> V[Orphaned account detection]
+    S --> W[Request detail view]
+
+    X[Natural language chatbot] --> Y[Parse user intent]
+    Y --> C
+
+    E --> Z[Emergency override]
+    Z --> P
+    Z --> S
+```
+
+### Workflow Summary
+
+1. A portal user logs in with a role such as HR, manager, security, compliance, or IAM admin.
+2. HR users can create Joiner, Mover, or Leaver lifecycle requests.
+3. The backend validates the request, target employee, role mapping, and requested systems.
+4. The risk engine checks separation-of-duties issues, critical systems, and access scope.
+5. Low and medium risk requests can be auto-approved.
+6. High and critical requests move through manager, security, and compliance approval levels.
+7. Approved requests trigger simulated IAM provisioning across enterprise systems.
+8. Every major action writes to the audit log, which supports analytics, SLA tracking, orphan detection, and request history.
+
 ## Features
 
 - Joiner, Mover, and Leaver workflow automation
